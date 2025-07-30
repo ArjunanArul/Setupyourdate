@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulSync - Create Your Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a2e;
+            background-image: radial-gradient(circle at top right, rgba(147, 51, 234, 0.3), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(219, 39, 119, 0.3), transparent 40%);
+            color: #e0e0e0;
+        }
+        h2, .logo-font {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        .form-container {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity;
+        }
+        .hidden-step {
+            transform: translateX(100%);
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        .previous-step {
+            transform: translateX(-100%);
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        .visible-step {
+            transform: translateX(0);
+            opacity: 1;
+            position: relative;
+            pointer-events: auto;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .form-input {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            background-color: rgba(0,0,0,0.3);
+            border-color: #d84596;
+            box-shadow: 0 0 15px rgba(219, 39, 119, 0.4);
+        }
+        .btn-primary {
+            background-image: linear-gradient(to right, #d84596, #9333ea);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 20px rgba(219, 39, 119, 0.5);
+        }
+        .progress-bar-bg {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .progress-bar-fill {
+            background-image: linear-gradient(to right, #d84596, #9333ea);
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-transparent fixed w-full z-50 top-0">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center space-x-3">
+                        <!-- Pixelated Heart Logo -->
+                        <svg width="32" height="32" viewBox="0 0 13 13" fill="currentColor" class="h-8 w-8 text-pink-500" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M2 1H3V0H5V1H7V0H9V1H10V2H11V4H12V6H11V8H10V9H9V10H7V11H5V10H3V9H2V8H1V6H0V4H1V2H2V1Z"/>
+                        </svg>
+                        <span class="text-3xl text-white tracking-wider logo-font font-bold">SoulSync</span>
+                    </a>
+                </div>
+                <div class="flex items-center">
+                     <a href="#" class="text-gray-300 hover:text-white mr-6 transition-colors duration-300 font-medium">Log In</a>
+                    <a href="#" class="btn-primary text-white px-5 py-2 rounded-full shadow-lg font-semibold">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="min-h-screen flex items-center justify-center pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="relative w-full max-w-2xl mx-auto">
+             <!-- Progress Bar -->
+            <div class="w-full progress-bar-bg rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="progress-bar-fill h-2.5 rounded-full" style="width: 33%"></div>
+            </div>
+
+            <div class="overflow-x-hidden relative h-[740px]">
+                <!-- Step 1: About You -->
+                <div id="step1" class="form-container visible-step w-full">
+                    <div class="glass-card p-8 md:p-12 rounded-2xl">
+                        <div class="text-center mb-8">
+                            <h2 class="text-5xl text-white font-semibold">Tell Us About Yourself</h2>
+                            <p class="text-gray-400 mt-3">Let's create your profile. This is how others will see you.</p>
+                        </div>
+                        <form class="space-y-6" onsubmit="return false;">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                                    <input type="text" id="name" placeholder="e.g., Priya" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                </div>
+                                <div>
+                                    <label for="age" class="block text-sm font-medium text-gray-300 mb-1">Age</label>
+                                    <input type="number" id="age" placeholder="e.g., 28" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="gender-self" class="block text-sm font-medium text-gray-300 mb-1">Your Gender</label>
+                                <select id="gender-self" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                    <option class="bg-gray-800">Woman</option>
+                                    <option class="bg-gray-800">Man</option>
+                                    <option class="bg-gray-800">Non-binary</option>
+                                    <option class="bg-gray-800">Prefer not to say</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="instagram-id" class="block text-sm font-medium text-gray-300 mb-1">Instagram ID</label>
+                                <input type="text" id="instagram-id" placeholder="e.g., priya_patel" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                            </div>
+                            <div>
+                                <label for="bio" class="block text-sm font-medium text-gray-300 mb-1">Your Bio</label>
+                                <textarea id="bio" rows="3" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none" placeholder="A little about your passions, hobbies..."></textarea>
+                            </div>
+                            <div class="pt-4">
+                                <button type="button" onclick="goToStep(2, 1)" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-semibold text-white btn-primary">
+                                    Next <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Step 2: Define Your Vibe -->
+                <div id="step2" class="form-container hidden-step w-full">
+                    <div class="glass-card p-8 md:p-12 rounded-2xl">
+                        <div class="text-center mb-8">
+                            <h2 class="text-5xl text-white font-semibold">Define Your Vibe</h2>
+                            <p class="text-gray-400 mt-3">Help us understand what you're looking for.</p>
+                        </div>
+                        <form class="space-y-6" onsubmit="return false;">
+                            <div>
+                                <label for="relation-type" class="block text-sm font-medium text-gray-300 mb-1">Relationship Type</label>
+                                <select id="relation-type" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                    <option class="bg-gray-800">Situationship</option>
+                                    <option class="bg-gray-800">True Love</option>
+                                    <option class="bg-gray-800">Bestie</option>
+                                    <option class="bg-gray-800">Orbiting</option>
+                                    <option class="bg-gray-800">Benching</option>
+                                    <option class="bg-gray-800">Mewing</option>
+                                    <option class="bg-gray-800">Sugar daddy / Sugar Mummy</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label for="born-in" class="block text-sm font-medium text-gray-300 mb-1">I'm a...</label>
+                                <select id="born-in" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                    <option class="bg-gray-800">90s kid</option>
+                                    <option class="bg-gray-800">2k kid</option>
+                                    <option class="bg-gray-800">GenZ</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="mindset" class="block text-sm font-medium text-gray-300 mb-1">Partner's Mindset</label>
+                                <select id="mindset" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                    <option class="bg-gray-800">GenZ partner</option>
+                                    <option class="bg-gray-800">Naadan kutti (traditional)</option>
+                                    <option class="bg-gray-800">Modern bitch</option>
+                                    <option class="bg-gray-800">Thantha vibe</option>
+                                </select>
+                            </div>
+
+                            <div class="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                 <button type="button" onclick="goToStep(1, 2)" class="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-lg font-semibold text-gray-300 bg-white/10 hover:bg-white/20 transition-all duration-300">
+                                    <i data-lucide="arrow-left" class="mr-2 h-5 w-5"></i> Back
+                                </button>
+                                <button type="button" onclick="goToStep(3, 2)" class="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-lg text-lg font-semibold text-white btn-primary">
+                                    Next <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Step 3: About Your Partner -->
+                <div id="step3" class="form-container hidden-step w-full">
+                    <div class="glass-card p-8 md:p-12 rounded-2xl">
+                        <div class="text-center mb-8">
+                            <h2 class="text-5xl text-white font-semibold">Who Are You Looking For?</h2>
+                            <p class="text-gray-400 mt-3">Describe your ideal partner.</p>
+                        </div>
+                        <form id="profile-form" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                            <div>
+                                <label for="seeking-gender" class="block text-sm font-medium text-gray-300 mb-1">I'm looking for a</label>
+                                <select id="seeking-gender" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                    <option class="bg-gray-800">Man</option>
+                                    <option class="bg-gray-800">Woman</option>
+                                    <option class="bg-gray-800">Anyone</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Age Range</label>
+                                <div class="grid grid-cols-2 gap-4 mt-1">
+                                    <input type="number" id="seeking-age-min" placeholder="Min" class="form-input block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                    <input type="number" id="seeking-age-max" placeholder="Max" class="form-input block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="seeking-qualities" class="block text-sm font-medium text-gray-300 mb-1">Important Qualities</label>
+                                <textarea id="seeking-qualities" rows="3" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none" placeholder="e.g., sense of humor, loves dogs..."></textarea>
+                            </div>
+                            <div class="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                 <button type="button" onclick="goToStep(2, 3)" class="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-lg font-semibold text-gray-300 bg-white/10 hover:bg-white/20 transition-all duration-300">
+                                    <i data-lucide="arrow-left" class="mr-2 h-5 w-5"></i> Back
+                                </button>
+                                <button type="submit" class="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-lg text-lg font-semibold text-white btn-primary">
+                                    Find Your SoulSync <i data-lucide="sparkles" class="ml-2 h-5 w-5"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // This script is for UI navigation and does not need to be a module
+        lucide.createIcons();
+
+        const steps = [
+            document.getElementById('step1'),
+            document.getElementById('step2'),
+            document.getElementById('step3')
+        ];
+        const progressBar = document.getElementById('progress-bar');
+
+        function goToStep(targetStep, currentStep) {
+            const targetIndex = targetStep - 1;
+            const currentIndex = currentStep - 1;
+
+            if (targetIndex === currentIndex) return;
+
+            steps.forEach((step, index) => {
+                step.classList.remove('visible-step', 'hidden-step', 'previous-step');
+
+                if (index === targetIndex) {
+                    step.classList.add('visible-step');
+                } else if (index < targetIndex) {
+                    step.classList.add('previous-step');
+                } else {
+                    step.classList.add('hidden-step');
+                }
+            });
+
+            // Update progress bar
+            const progress = (targetStep / steps.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        /**
+         * Gathers all the data from the form fields and sends it to a Google Apps Script.
+         */
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // ------------------------------------------------------------------
+            // TODO: PASTE YOUR GOOGLE APPS SCRIPT URL HERE
+            // ------------------------------------------------------------------
+            const googleAppScriptUrl = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+
+            if (googleAppScriptUrl === "YOUR_GOOGLE_APPS_SCRIPT_URL") {
+                alert("Please paste your Google Apps Script URL into the code.");
+                return;
+            }
+
+            // Collect data from all input fields
+            const profileData = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender-self').value,
+                instagramId: document.getElementById('instagram-id').value,
+                bio: document.getElementById('bio').value,
+                relationType: document.getElementById('relation-type').value,
+                generation: document.getElementById('born-in').value,
+                seekingMindset: document.getElementById('mindset').value,
+                seekingGender: document.getElementById('seeking-gender').value,
+                seekingAgeMin: document.getElementById('seeking-age-min').value,
+                seekingAgeMax: document.getElementById('seeking-age-max').value,
+                seekingQualities: document.getElementById('seeking-qualities').value
+            };
+
+            // Send the data to Google Apps Script
+            fetch(googleAppScriptUrl, {
+                method: 'POST',
+                mode: 'no-cors', // Important for cross-origin requests to Apps Script
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(profileData)
+            })
+            .then(() => {
+                alert("Your profile has been submitted successfully!");
+                document.getElementById("profile-form").reset(); // Clear the form
+                // Optionally, go back to the first step
+                goToStep(1, 3);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("There was an error submitting your profile. Please try again.");
+            });
+        }
+    </script>
+</body>
+</html>
